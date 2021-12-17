@@ -1,15 +1,17 @@
 import SwiftUI
 
 struct ContentView: View {
-    var emojis = ["🚗", "🚕", "🚙", "🚌", "🚎", "🏎", "🚓", "🚑", "🚒", "🚐", "🛻", "🚚", "🚛", "🚜", "🦽",]
+    @State var emojis: [String] = ["🚗", "🚕", "🚙", "🚌", "🚎", "🏎", "🚓", "🚑", "🚒", "🚐", "🛻", "🚚", "🚛", "🚜", "🦽"].shuffled()
     
-    @State var emojiCounter = 10
+    @State var emojiCounter = 12
     
     var body: some View {
         VStack {
+            Text("Memorize!").font(.largeTitle).padding(.horizontal)
+                        
             ScrollView {
                 LazyVGrid (columns:[GridItem(.adaptive(minimum: 65))]) {
-                    ForEach(emojis[0...emojiCounter], id: \.self) { emoji in
+                    ForEach(emojis[0..<emojiCounter], id: \.self) { emoji in
                         CardView(content: emoji).aspectRatio(2/3, contentMode: .fit)
                     }
                 }
@@ -19,34 +21,54 @@ struct ContentView: View {
             Spacer()
             
             HStack {
-                remove
+                vehiclesTheme
                 Spacer()
-                add
+                animalsTheme
+                Spacer()
+                peopleTheme
             }
+            .padding(.horizontal)
+            
             .padding(.horizontal)
             .font(.largeTitle)
         }
         .padding(.horizontal)
-        
     }
     
-    var remove: some View {
+    var vehiclesTheme: some View {
         Button {
-            if emojiCounter > 0 {
-                emojiCounter -= 1;
-            }
+            emojis = ["🚗", "🚕", "🚙", "🚌", "🚎", "🏎", "🚓", "🚑", "🚒", "🚐", "🛻", "🚚", "🚛", "🚜", "🦽"]
+            emojis.shuffle()
+            
         } label: {
-            Image(systemName: "minus.circle")
+            VStack {
+                Image(systemName: "car")
+                Text("vihicles").font(.footnote)
+            }
         }
     }
     
-    var add: some View {
+    var animalsTheme: some View {
         Button {
-            if emojiCounter < emojis.count - 1 {
-                emojiCounter += 1;
-            }
+            emojis = ["🐶", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐻‍❄️", "🐨", "🐯", "🦁", "🙊", "🐗", "🦄"]
+            emojis.shuffle()
         } label: {
-            Image(systemName: "plus.circle")
+            VStack {
+                Image(systemName: "pawprint")
+                Text("animals").font(.footnote)
+            }
+        }
+    }
+    
+    var peopleTheme: some View {
+        Button {
+            emojis = ["🧕🏻", "👮‍♀️", "👨‍🍳", "👩🏻‍🎓", "👩🏼‍🔧", "👩🏽‍🚒", "🧑🏻‍🎨", "👩‍✈️", "👩🏻‍🚀", "👰🏻‍♂️", "🥷", "🤴🏿", "🧙🏻‍♀️"]
+            emojis.shuffle()
+        } label: {
+            VStack {
+                Image(systemName: "person")
+                Text("people").font(.footnote)
+            }
         }
     }
 }
@@ -75,5 +97,6 @@ struct CardView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+.previewInterfaceOrientation(.portrait)
     }
 }
